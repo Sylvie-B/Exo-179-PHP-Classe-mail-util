@@ -4,7 +4,7 @@
 class sendMail
 {
     private string $to;
-    private string $object;
+    private string $subject;
     private string $message;
     // additional_params
     private string $from;
@@ -34,17 +34,17 @@ class sendMail
     /**
      * @return string
      */
-    public function getObject(): string
+    public function getSubject(): string
     {
-        return $this->object;
+        return $this->subject;
     }
 
     /**
-     * @param string $object
+     * @param string $subject
      */
-    public function setObject(string $object): void
+    public function setSubject(string $subject): void
     {
-        $this->object = $object;
+        $this->subject = $subject;
     }
 
     /**
@@ -95,5 +95,17 @@ class sendMail
         $this->mailer = $mailer;
     }
 
+    public function setHeaders () {
+        return $header = [
+            'reply-To' => $this->getFrom(),
+            'X-mailer' => $this->getMailer(),
+            'Mime-Version' => '1.0',
+            'content-type' => 'text/html; charset=utf-8'
+        ];
+    }
 
+    public function createMail (){
+        mail($this->getTo(), $this->getSubject(), $this->getMessage(), $this->getMailer(), $this->getFrom());
+    }
 }
+
