@@ -12,27 +12,29 @@
     <form method="post" action="index.php">
         <div>
             <label for="mail-from">de</label>
-            <input type="email" id="mail-from">
+            <input type="email" id="mail-from" name="mailFrom">
         </div>
         <div>
             <label for="mail-to">à</label>
-            <input type="email" id="mail-to">
+            <input type="email" id="mail-to" name="mailTo">
+        </div>
+        <div>
+            <label for="subject">objet</label>
+            <input type="text" id="subject" name="subject">
         </div>
         <div>
             <label for="mailTxt">votre message</label>
             <textarea name="mail" id="mailTxt" cols="30" rows="10"></textarea>
         </div>
+        <button name="send" type="submit">valider</button>
     </form>
 </body>
 </html>
 
 <?php
+    require './CreateMail.php';
 
-
-
-$write = new sendMail("gogo@hotmail.fr", "moa@outlook.fr");
-
-$write->setSubject("Bonjour");
-$write->setMessage("Comment ça va ?");
-$write->setMailer('PHP/'.phpversion());
-
+if(isset($_POST['send'], $_POST['mailFrom'], $_POST['mailTo'], $_POST['subject'], $_POST['mail'])){
+    $newMail = new CreateMail($_POST['mailTo'], $_POST['mailFrom'], $_POST['subject'], $_POST['mail']);
+    $newMail->createMail();
+}

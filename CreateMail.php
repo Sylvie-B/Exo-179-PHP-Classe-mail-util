@@ -1,18 +1,18 @@
 <?php
 
 
-class sendMail
+class CreateMail
 {
     private string $to;
     private string $subject;
     private string $message;
-    // additional_params
     private string $from;
-    private string $mailer;
 
-    public function __construct(string $to, string $from){
+    public function __construct(string $to, string $from, string $subject, string $message){
         $this->setTo($to);
         $this->setFrom($from);
+        $this->setSubject($subject);
+        $this->setMessage($message);
     }
 
     /**
@@ -79,33 +79,20 @@ class sendMail
         $this->from = $from;
     }
 
-    /**
-     * @return string
-     */
-    public function getMailer(): string
-    {
-        return $this->mailer;
-    }
-
-    /**
-     * @param string $mailer
-     */
-    public function setMailer(string $mailer): void
-    {
-        $this->mailer = $mailer;
-    }
-
-    public function setHeaders () {
+    public function mailHeaders () {
         return $header = [
             'reply-To' => $this->getFrom(),
-            'X-mailer' => $this->getMailer(),
+            'X-mailer' => 'PHP/'.phpversion(),
             'Mime-Version' => '1.0',
             'content-type' => 'text/html; charset=utf-8'
         ];
     }
 
     public function createMail (){
-        mail($this->getTo(), $this->getSubject(), $this->getMessage(), $this->getMailer(), $this->getFrom());
+        $sended = mail($this->getTo(), $this->getSubject(), $this->getMessage(), $this->mailHeaders(), $this->getFrom());
+        if($sended){
+            echo "message envoyé";
+        }
     }
 }
 
