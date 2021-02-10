@@ -81,7 +81,8 @@ class CreateMail
 
     public function mailHeaders () {
         return $header = [
-            'reply-To' => $this->getFrom(),
+            'From' => $this->getFrom(),
+            'Reply-To' => $this->getFrom(),
             'X-mailer' => 'PHP/'.phpversion(),
             'Mime-Version' => '1.0',
             'content-type' => 'text/html; charset=utf-8'
